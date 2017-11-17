@@ -1,18 +1,30 @@
 
-import Data.Vect
+--import Data.Vect
 
 
-{-data Elem : a -> List a -> Type where
+-- Elem property
+data Elem : a -> List a -> Type where
   Here : Elem x (x :: xs)
   There : (later : Elem x xs) -> Elem x (y :: xs)
-  -}
+
+
+-- Elem examples
 
 
 
-x : (n : Nat ** Vect n Int)
-x = (_ ** [1,2,3])
 
 
+
+
+
+
+
+
+
+
+
+
+-- Definitions 
 
 
 --digits : List Char
@@ -29,6 +41,7 @@ x = (_ ** [1,2,3])
 
 
 
+-- Properties
 
 
 
@@ -41,6 +54,56 @@ x = (_ ** [1,2,3])
 
 
 
+-- Dependent pairs
+--x : (n : Nat ** Vect n Int)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Refinement type 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Conversion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Examples
 
 
 
