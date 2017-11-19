@@ -98,6 +98,9 @@ x : (n : Nat ** Vect n Int)
 
 
 
+--refbIsLC : Refined Char LowerCase
+
+
 
 
 
@@ -108,17 +111,26 @@ x : (n : Nat ** Vect n Int)
 
 -- Conversion
 
+--toRefined : { a : Type } -> { P : a -> Type } -> ??? 
+
+
+
+
+
+--testRefA : Refined Char LowerCase
+
+
+
+
+
+--testRefB : Char `Refined` LowerCase
 
 
 
 
 
 
-
-
-
-
-
+--fromRefined : { P : Char -> Type } -> ??? 
 
 
 
