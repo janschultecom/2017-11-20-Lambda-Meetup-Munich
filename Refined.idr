@@ -1,5 +1,22 @@
+module Refined 
 
---import Data.Vect
+
+data Vect : (len : Nat) -> (elem : Type) -> Type where
+  Nil  : Vect Z elem
+  (::) : (x : elem) -> (xs : Vect len elem) -> Vect (S len) elem
+
+
+
+-- Definitions 
+
+digits : List Char
+digits = ['0'..'9']
+
+lowerCase : List Char
+lowerCase = ['a'..'z']
+
+upperCase : List Char
+upperCase = ['A'..'Z']
 
 
 -- Elem property
@@ -11,30 +28,24 @@ data Elem : a -> List a -> Type where
 -- Elem examples
 
 
+aIsLC : Elem 'a' Refined.lowerCase
+
+
+bIsLC : Elem 'b' Refined.lowerCase
+
+
+kIsLC : Elem 'k' Refined.lowerCase
+
+
+
+
+-- Not true....
 
 
 
 
 
 
-
-
-
-
-
-
-
--- Definitions 
-
-
---digits : List Char
---digits = ['0'..'9']
-
---lowerCase : List Char
---lowerCase = ['a'..'z']
-
---upperCase : List Char
---upperCase = ['A'..'Z']
 
 
 
@@ -42,6 +53,13 @@ data Elem : a -> List a -> Type where
 
 
 -- Properties
+Digits : Char -> Type 
+
+
+LowerCase : Char -> Type
+
+
+UpperCase : Char -> Type
 
 
 
@@ -55,7 +73,7 @@ data Elem : a -> List a -> Type where
 
 
 -- Dependent pairs
---x : (n : Nat ** Vect n Int)
+x : (n : Nat ** Vect n Int)
 
 
 
@@ -72,6 +90,7 @@ data Elem : a -> List a -> Type where
 
 -- Refinement type 
 
+-- x : Refined Char UpperCase 
 
 
 
@@ -106,8 +125,10 @@ data Elem : a -> List a -> Type where
 -- Examples
 
 
+printChar : Char -> IO ()
+printChar = printLn
 
-
+main : IO () 
 
 
 
@@ -127,14 +148,8 @@ data Elem : a -> List a -> Type where
 
 {-
 
-Thank you! 
-
-Twitter: @janschultecom
-Github: github.com/janschultecom
-
-Idris Refined - https://github.com/janschultecom/idris-refined
-
-Contributions welcome!!! :-)
+Idris Refined
+https://github.com/janschultecom/idris-refined
 
 -}
 
