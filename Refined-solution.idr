@@ -1,23 +1,13 @@
-module Refined
-
-import Data.Vect
-
--- Elem property
-data LElem : a -> List a -> Type where
-  Here : LElem x (x :: xs)
-  There : (later : LElem x xs) -> LElem x (y :: xs)
+module Refined 
 
 
-
-
-
-
-
+data Vect : (len : Nat) -> (elem : Type) -> Type where
+  Nil  : Vect Z elem
+  (::) : (x : elem) -> (xs : Vect len elem) -> Vect (S len) elem
 
 
 
 -- Definitions 
-
 
 digits : List Char
 digits = ['0'..'9']
@@ -29,33 +19,59 @@ upperCase : List Char
 upperCase = ['A'..'Z']
 
 
+-- Elem property
+data Elem : a -> List a -> Type where
+  Here : Elem x (x :: xs)
+  There : (later : Elem x xs) -> Elem x (y :: xs)
 
 
 -- Elem examples
 
 
+aIsLC : Elem 'a' Refined.lowerCase
+aIsLC = Here  
 
-aIsLowerCase : LElem '0' Refined.digits
-aIsLowerCase = Here 
+
+bIsLC : Elem 'b' Refined.lowerCase
+bIsLC = There Here  
 
 
-notA : LElem 'a' ['A'] -> Void
+kIsLC : Elem 'k' Refined.lowerCase
+kIsLC = There (There (There (There (There (There (There (There (There (There Here)))))))))
+
+notA : Elem 'a' ['A'] -> Void 
 notA (There Here) impossible
 notA (There (There _)) impossible
 
 
+-- Not true....
+
+
+
+
+
+
+
+
+
+
+
 
 -- Properties
-
-
 Digits : Char -> Type 
-Digits c = LElem c digits
+Digits c = Elem c Refined.digits
+
 
 LowerCase : Char -> Type
-LowerCase c = LElem c lowerCase
+LowerCase c = Elem c Refined.lowerCase 
+
 
 UpperCase : Char -> Type
-UpperCase c = LElem c upperCase
+UpperCase c = Elem c Refined.upperCase
+
+
+
+
 
 
 
@@ -80,21 +96,19 @@ x = (_ ** [1,2,3])
 
 
 
+
 -- Refinement type 
 
--- x : Refined Char UpperCase 
-
-
-Refined : ( a : Type ) -> ( P : a -> Type ) -> Type 
+Refined : (a: Type) -> ( P : a -> Type ) -> Type 
 Refined = DPair 
 
 
 
 
 
-test1 : Refined Char LowerCase
-test1 = ( 'b'  ** (There Here) )
 
+refbIsLC : Refined Char LowerCase
+refbIsLC = ('b' ** There Here ) 
 
 
 
@@ -106,35 +120,39 @@ test1 = ( 'b'  ** (There Here) )
 
 -- Conversion
 
-implicit
-toRefined : { a : Type } -> { P : a -> Type } -> ( x : a) -> { auto property : P x } -> Refined a P 
-toRefined c { property} = ( c ** property )
+implicit 
+toRefined : { a : Type } -> { P : a -> Type } -> ( x : a) -> { auto property: P x } -> Refined a P 
+toRefined x { property } = ( x ** property ) 
 
 
-test2 : Refined Char LowerCase
-test2 = 'a'
 
-test3 : Char `Refined` LowerCase
-test3 = 'b' 
+
+
+testRefA : Refined Char LowerCase
+testRefA = 'a'
+
+
+
+
+testRefB : Char `Refined` LowerCase
+testRefB = 'b'
+
+
+
 
 implicit 
-fromRefinedChar : { P : Char -> Type } -> Refined Char P -> Char
+fromRefinedChar : { P : Char -> Type } -> Refined Char P -> Char 
 fromRefinedChar = fst
-
-printChar : Char -> IO ()
-printChar = printLn
-
-main : IO () 
-main = printChar test2 
 
 
 -- Examples
 
 
+printChar : Char -> IO ()
+printChar = printLn
 
-
-
-
+main : IO () 
+main = printChar Refined.testRefA
 
 
 
@@ -152,14 +170,8 @@ main = printChar test2
 
 {-
 
-Thank you! 
-
-Twitter: @janschultecom
-Github: github.com/janschultecom
-
-Idris Refined - https://github.com/janschultecom/idris-refined
-
-Contributions welcome!!! :-)
+Idris Refined
+https://github.com/janschultecom/idris-refined
 
 -}
 
